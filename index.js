@@ -1,5 +1,7 @@
 const express = require('express');
 const {  ApolloServer , gql  } = require('apollo-server-express');
+const { makeExecutableSchema } = require('graphql-tools');
+const Movie  = require('./movie.js');
 
 const PORT = process.env.PORT || 3000;
 
@@ -21,16 +23,10 @@ const movies = [
     }
 
 ];
-const typeDefs = gql`
+const Query = `
 type Query{
     movies: [Movie!]!
     movie(id: ID!):Movie!
-}
-
-type Movie{
-    id:ID
-    title:String
-    genre:String
 }
 
 type Mutation{
@@ -71,7 +67,8 @@ const resolvers = {
 };
 
 const app = express();
-const server = new ApolloServer({ typeDefs, resolvers });
+const schema = makeExecutableSchema({ typeDefs:[ Query , Movie ],resolvers:{ resolvers}})
+const server = new ApolloServer({ schema});
 
 server.applyMiddleware({ app });
 
