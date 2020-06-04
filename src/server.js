@@ -1,4 +1,4 @@
-const express = require('express');
+import app from './app';
 const {  ApolloServer , gql  } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
 const Movie  = require('./movie.js');
@@ -66,11 +66,10 @@ const resolvers = {
     }
 };
 
-const app = express();
-const schema = makeExecutableSchema({ typeDefs:[ Query , Movie ],resolvers:{ resolvers}})
-const server = new ApolloServer({ schema});
+// const schema = makeExecutableSchema({ typeDefs:[ Query , Movie ],resolvers:{ resolvers}})
+// const server = new ApolloServer( Query , resolvers);
 
-server.applyMiddleware({ app });
+// server.applyMiddleware({ app });
 
 app.listen( PORT ,()=>{
     console.log(`Server running on port ${PORT} ...`);
