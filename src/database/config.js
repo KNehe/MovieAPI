@@ -1,21 +1,17 @@
-import sequelize from 'sequelize';
+import Sequelize from 'sequelize';
 
-const db = new sequelize('movie_api','postgres','postgres',{
+const sequelize = new Sequelize('movie_api','postgres','postgres',{
     host: 'localhost',
     dialect: 'postgres'
 });
 
-const testDb = () =>{
-
-db.authenticate()
+sequelize.authenticate()
    .then( ()=>{
        console.log("DB Connection established ..");
 
    }).catch( (error)=>{
        console.error("An error occurred", error);
-    });
-
-};
+});
 
 
-export default testDb;
+module.exports = sequelize;

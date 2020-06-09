@@ -1,3 +1,5 @@
+import Movie from './../database/Models/movie';
+import  { ApolloError } from 'apollo-server-express';
 const movies = [
     {
         id: 1, 
@@ -34,11 +36,19 @@ const getMovieById = ( id) =>{
     return movie;
 };
 
-const createMovie = ( title , genre ) =>{
-      let id = movies.length + 1;
-      const newMovie = {id, title, genre};
-      movies.push(newMovie);
-      return newMovie;
+const createMovie = async ( title , genre ) =>{
+      
+    try{
+        const newMovie = await Movie.create( title, genre);
+
+        if(!newMovie){
+            throw new ApolloError( err.message, 500);
+        }
+        return newMovie;
+    }catch( err ){
+     
+    }
+      
 };
 
 const deleteMovie = (id) =>{

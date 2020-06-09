@@ -8,7 +8,7 @@ export default {
     },
 
     Mutation: {
-        createMovie : ( parent, {title , genre})=> MovieController.createMovie( title , genre),
+        createMovie : async ( parent, {title , genre})=> await MovieController.createMovie( title , genre),
 
         deleteMovie : (parent, {id }) => MovieController.deleteMovie( id )
     }
