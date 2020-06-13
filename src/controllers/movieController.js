@@ -1,61 +1,36 @@
 import Movie from './../database/Models/movie';
 import  { ApolloError } from 'apollo-server-express';
-const movies = [
-    {
-        id: 1, 
-        title:"Men in black",
-        genre:"Action"
-    }
-    , {
-        id: 2, 
-        title:"Young Sheldon",
-        genre:"Comedy"
-    },
-    {
-        id: 3, 
-        title:"Blacklist",
-        genre:"Drama"
-    }
 
-];
+const getAllMovies =  async () =>{
 
-const getAllMovies = () =>{
-  return movies;
+    const movies =  await Movie.findAll();
+    return movies;
 };
 
-const getMovieById = ( id) =>{
+const getMovieById =   async ( id) =>{
 
-    let movie = {};
-
-    movies.forEach( e=> {
-        if(e.id == id){
-            movie = e;
-        }
-    });
+    const movie = await Movie.findOne({ where: { id} });
 
     return movie;
 };
 
-const createMovie = async ( title , genre ) =>{
-      
-    try{
-        const newMovie = await Movie.create( title, genre);
-
-        if(!newMovie){
-            throw new ApolloError( err.message, 500);
-        }
+const createMovie = async ( data ) =>{
+        
+        const newMovie = await Movie.create( { ...data});
+        
         return newMovie;
-    }catch( err ){
-     
-    }
       
 };
 
-const deleteMovie = (id) =>{
-        const movie = movies.findIndex( movie => movie.id === id );
-        movies.splice(movie,1);
+const deleteMovie = async (id) =>{
+        
+        await Movie.destroy({ where: { id}});
+
+        const movies = Movie.findAll();
+        
         return movies;
 };
+
 
 
 export default { getAllMovies , getMovieById , createMovie , deleteMovie };

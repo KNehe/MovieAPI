@@ -7,7 +7,7 @@ type Query{
 }
 
 type Mutation{
-    createMovie(title:String!,genre:String!):Movie!
+    createMovie(data:MovieInput!):Movie!
     deleteMovie(id :ID! ):[Movie!]!
 }
 
@@ -15,6 +15,12 @@ type Movie{
     id:ID
     title:String
     genre:String
+}
+
+input MovieInput{
+    title:String
+    genre:String
+    author_id:Int
 }
 
 

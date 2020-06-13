@@ -2,14 +2,16 @@ import MovieController from './../controllers/movieController';
 
 export default {
     Query: {
-        getAllmovies: ()=> MovieController.getAllMovies(),
+        getAllmovies: async ( parent )=> await MovieController.getAllMovies(),
 
-        getMovieById: ( parent,{ id }) => MovieController.getMovieById(id)
+        getMovieById: async ( parent,{ id }) => await MovieController.getMovieById(id)
     },
 
     Mutation: {
-        createMovie : async ( parent, {title , genre})=> await MovieController.createMovie( title , genre),
+        createMovie : async ( parent, {data})=> {
+            await MovieController.createMovie(data)
+        },
 
-        deleteMovie : (parent, {id }) => MovieController.deleteMovie( id )
+        deleteMovie : async (parent, {id }) => await MovieController.deleteMovie( id )
     }
 };
