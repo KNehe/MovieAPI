@@ -11,24 +11,50 @@ const getMovieById =   async ( id) =>{
 
     const movie = await Movie.findOne({ where: { id} });
 
+    const foundMovie = await Movie.findOne({ where: { id } });
+
+    if(!foundMovie){
+        throw new ApolloError(`Movie with id '${id}'  does not exist`, '400');
+    }
+
     return movie;
 };
 
-const createMovie = async ( data ) =>{
+const createMovie = async ( data ) => {
+   
+        const  { title } = data;
+
+        const foundMovie = await Movie.findOne({ where: { title } });
+
+        if(foundMovie){
+           throw new ApolloError(`Movie with title '${title}' exists`, '400');
+         }
+
+        const newMovie = await Movie.create( { ...data });
         
-        const newMovie = await Movie.create( { ...data});
-        
-        return newMovie;
+        if(!newMovie){
+            throw new ApolloError(`An error occurred while creating movie, try again`, '400');
+          }
+
+        const { id, genre} = newMovie;
+
+        return { id ,title, genre };
       
 };
 
 const deleteMovie = async (id) =>{
-        
-        await Movie.destroy({ where: { id}});
 
-        const movies = Movie.findAll();
+    const foundMovie = await Movie.findOne({ where: { id } });
+
+    if(!foundMovie){
+        throw new ApolloError(`Movie with id '${id}'  does not exist`, '400');
+    }
         
-        return movies;
+    await Movie.destroy({ where: { id}});
+
+    const movies = Movie.findAll();
+        
+    return movies;
 };
 
 
