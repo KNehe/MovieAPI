@@ -1,4 +1,5 @@
 import MovieController from './../controllers/movieController';
+import UserController from './../controllers/userController';
 
 export default {
     Query: {
@@ -8,10 +9,12 @@ export default {
     },
 
     Mutation: {
-        createMovie : async ( parent, {data})=> {
-            await MovieController.createMovie(data)
-        },
+        createMovie : async ( parent, { data } )=> await MovieController.createMovie(data),
 
-        deleteMovie : async (parent, {id }) => await MovieController.deleteMovie( id )
+        deleteMovie : async (parent, { id }) => await MovieController.deleteMovie( id ),
+
+        registerUser: async (parent, { data }) => await UserController.registerUser(data),
+
+        login: async (parent, { data }) => await UserController.login( data ),
     }
 };

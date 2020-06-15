@@ -11,6 +11,7 @@ const Movie = sequelize.define( 'movies',{
     },
     title:Sequelize.STRING(100),
     genre: Sequelize.STRING(100),
+    video_url: Sequelize.STRING(100),
     author_id: {
         type: Sequelize.INTEGER(100),
         foreignKey: true,
