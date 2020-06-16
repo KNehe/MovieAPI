@@ -9,12 +9,7 @@ const Actor = sequelize.define('actors',{
         allowNull: false,
     },
     first_name:Sequelize.STRING(100),
-    last_name: Sequelize.STRING(100),
-    movie_id:{
-        type: Sequelize.INTEGER(100),
-        foreignKey: true,
-        allowNull:false
-    }
+    last_name: Sequelize.STRING(100)
 });
 
 export default Actor;

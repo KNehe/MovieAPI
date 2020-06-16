@@ -14,5 +14,7 @@ sequelize.authenticate()
        console.error("An error occurred", error);
 });
 
+sequelize.sync();
+
 
 module.exports = sequelize;
