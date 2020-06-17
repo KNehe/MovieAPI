@@ -1,25 +1,64 @@
 import MovieController from './../controllers/movieController';
 import UserController from './../controllers/userController';
 import ActorController from './../controllers/actorController';
+import resctrictAccess from './../security/restrictAccess';
 
 export default {
     Query: {
-        getAllmovies: async ( parent )=> await MovieController.getAllMovies(),
+        getAllmovies: async ( parent, args, { role , isLoggedIn } )=>{
 
-        getMovieById: async ( parent,{ id }) => await MovieController.getMovieById(id),
+            resctrictAccess(['admin', 'user'], role, isLoggedIn);
 
-        findAllActors: async ( parent) => await ActorController.findAllActors()
+            return await MovieController.getAllMovies();
+        },
+
+        getMovieById: async ( parent,{ id }, { role , isLoggedIn }) =>{
+
+            resctrictAccess(['admin', 'user'], role, isLoggedIn);
+
+            return await MovieController.getMovieById(id);
+        },
+
+        findAllActors: async ( parent, args, { role , isLoggedIn } ) =>{
+             
+            resctrictAccess(['admin', 'user'], role, isLoggedIn);
+
+            return await ActorController.findAllActors();
+        }
     },
 
     Mutation: {
-        createMovie : async ( parent, { data } )=> await MovieController.createMovie(data),
+        createMovie : async ( parent, { data } , { role, isLoggedIn } )=> {
 
-        deleteMovie : async (parent, { id }) => await MovieController.deleteMovie( id ),
+            resctrictAccess(['admin'], role, isLoggedIn);
+
+            return await MovieController.createMovie(data);
+        },
+
+        deleteMovie : async (parent, { id }, { role, isLoggedIn } ) =>{
+
+            resctrictAccess(['admin'], role, isLoggedIn);
+
+            return await MovieController.deleteMovie( id );
+
+        },
 
         registerUser: async (parent, { data }) => await UserController.registerUser(data),
 
         login: async (parent, { data }) => await UserController.login( data ),
 
-        createActor: async ( parent, { data }) => await ActorController.createActor( data )
+        createActor: async ( parent, { data }, { role, isLoggedIn } ) =>{
+
+            resctrictAccess(['admin'], role, isLoggedIn);
+
+            return await ActorController.createActor( data );
+        },
+
+        deleteUser: async ( parent, { id }, { role, isLoggedIn }) =>{
+
+             resctrictAccess(['admin'], role, isLoggedIn);
+             
+             return await UserController.deleteUser(id);
+        }
     }
 };

@@ -16,7 +16,7 @@ const registerUser = async ( data ) =>{
 
     const password = await PasswordUtils.hash(data.password);
 
-    const user = { first_name, last_name, email, password };
+    const user = { first_name, last_name, email, role:'user', password };
 
     const token = TokenUtils.generateToken(email);
 
@@ -26,7 +26,7 @@ const registerUser = async ( data ) =>{
         throw new ApolloError('Registration failed, Try again', '500');
     }
 
-    return { first_name, last_name, email , token };
+    return { first_name, last_name, email , role, token };
 
 };
 
@@ -52,6 +52,21 @@ const login = async ( data ) =>{
 
 };
 
+const deleteUser = async ( id ) =>{
+
+    const foundUser = await User.findOne({ where: { id } });
+
+    if(!foundUser){
+        throw new ApolloError(`User with id '${id}' not found`, '404');
+    }
+
+    await User.destroy({ where: {id}});
+
+    return `User with id ${id} deleted successfully`;
+
+};
 
 
-export default { registerUser , login };
+
+
+export default { registerUser , login, deleteUser };

@@ -13,6 +13,7 @@ type Mutation{
     registerUser(data: UserRegInput!): UserRegOutput!
     login( data: LoginInput! ): LoginOutput!
     createActor( data: CreateActorInput! ): CreateActorOuput!
+    deleteUser(id: Int): String!
 }
 
 input CreateMovieInput{
@@ -58,6 +59,7 @@ type UserRegOutput{
     first_name:String
     last_name:String
     email:String
+    role:String
     token:String
 }
 
