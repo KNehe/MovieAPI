@@ -2,6 +2,7 @@
 A movie API built using GraphQL, Express and sequelize ORM
 
 To test, create a .env and add the following variables( fill in ur database username and password, you can change the rest however you like).
+Make sure you have MYSQL setup
 
 HOST=localhost
 
